@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title> Lab 7: Quote Finder </title>
+</head>
+<body>
+
+<!--     Quotes/keyword -->
+  <h1> Quote Finder </h1>
+<form action="/findByKeyword">
+  Keyword:
+	  <input type="text" name="keyword">
+	  <button> Search by Keyword </button>
+</form>
+
+<!--     authors -->
+    <h1>Find by Author</h1>
+    <form action="/findByAuthor">
+      
+    <select name="author"> 
+      
+      <% for(let i = 0; i< authors.length;i++) { %>
+      <option value=" <%= authors[i].authorId%> "> <%= authors[i].firstName%>   <%= authors[i].lastName%> </option>
+<%}%>
+  
+  </select>
+	  <button> Search by Author </button>
+    </form>
+
+
+<!--     likes -->
+    <h1>Find by Likes</h1>
+    <form action="/likes">
+  Likes
+	  <select name="likesKeyword"> </select>
+	  <button> Search by Likes </button>
+</form>
+  
+</body>
+</html>
