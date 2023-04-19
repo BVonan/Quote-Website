@@ -1,43 +1,70 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title> Lab 7: Quote Finder </title>
+  <title>Lab 7: Quote Finder</title>
+  <link href="/css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 
-<!--     Quotes/keyword -->
-  <h1> Quote Finder </h1>
-<form action="/findByKeyword">
-  Keyword:
-	  <input type="text" name="keyword">
-	  <button> Search by Keyword </button>
-</form>
+  <div class="container mt-5">
+    <div class="jumbotron">
+      <h1 class="display-4">Quote Finder</h1>
+    </div>
 
-<!--     authors -->
-    <h1>Find by Author</h1>
-    <form action="/findByAuthor">
-      
-    <select name="author"> 
-      
-      <% for(let i = 0; i< authors.length;i++) { %>
-      <option value=" <%= authors[i].authorId%> "> <%= authors[i].firstName%>   <%= authors[i].lastName%> </option>
-<%}%>
-  
-  </select>
-	  <button> Search by Author </button>
-    </form>
+    <div class="row">
+      <div class="col-md-4">
+        <form action="/findByKeyword" onsubmit="return validateKeyword()">
+          <div class="form-group">
+            <label for="keyword">Keyword</label>
+            <input type="text" name="keyword" id="keyword" class="form-control">
+            <span id="error-msg" class="error"></span>
+          </div>
+          <button type="submit" class="btn btn-primary">Search by Keyword</button>
+        </form>
+      </div>
 
+      <div class="col-md-4">
+        <form action="/findByCategory">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" name="category">
+              <% for(let i=0;i<cat.length;i++) { %>
+              <option value="'<%= cat[i].category %>'">
+                <%=cat[i].category %>
+              </option>
+              <% } %>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-warning">Search by Category</button>
+        </form>
+      </div>
 
-<!--     likes -->
-    <h1>Find by Likes</h1>
-    <form action="/likes">
-  Likes
-	  <select name="likesKeyword"> </select>
-	  <button> Search by Likes </button>
-</form>
-  
+      <div class="col-md-4">
+        <form action="/findByAuthor">
+          <div class="form-group">
+            <label for="author">Author</label>
+            <select class="form-control" name="authorId">
+              <% for(let i = 0; i< authors.length;i++) { %>
+              <option value="<%= authors[i].authorId%>">
+                <%= authors[i].firstName%>   <%= authors[i].lastName%>
+              </option>
+              <%}%>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-danger">Search by Author</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/red.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </body>
 </html>
