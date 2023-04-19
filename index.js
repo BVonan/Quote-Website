@@ -7,11 +7,16 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 //routes
-app.get('/', async function (req, res)  {
-    
-   sql= 'SELECT DISTINCT firstName, lastName FROM q_authors ';
-  let rows = await executeSQL(sql);
-  res.render('home', {'authors':rows});
+app.get('/', async function(req, res) {
+
+    sql = `SELECT q.authorId, q.firstName, q.lastName
+            FROM q_authors q 
+            ORDER BY q.firstName`;
+    let rows = await executeSQL(sql);
+    sql = "SELECT DISTINCT q.category FROM q_quotes q ORDER BY q.category";
+    let categories = await executeSQL(sql);
+
+    res.render('home', { 'authors': rows, "cat": categories });
 
 });
 
@@ -30,21 +35,20 @@ app.get("/findByKeyword", async function(req, res){
 });//findByKeyWord
 
 // author
-app.get("/findByAuthor", async function(req, res){
+app.get("/findByAuthor", async function(req, res) {
 
 
-  let author = req.query.author;
-    console.log(author);
-  let sql = `SELECT *
-  FROM q_quotes q
-  NATURAL JOIN q_authors a
-  WHERE a.authorId="${author}"
-  ORDER BY q.quote`;
+    let authorId = req.query.authorId;
     
-let rows = await executeSQL(sql);
-    console.log(rows);
-	
-res.render('authorResult', {'authors':rows});
+    let sql = `SELECT firstName, lastName, quote, authorId
+  FROM q_quotes q
+    NATURAL JOIN q_authors a
+    WHERE authorId = ? ;`
+
+    let params = [`${authorId}`];
+    let rows = await executeSQL(sql,params);
+    
+    res.render('results', { 'quotes': rows });
 });//findByAuthor
 
 //author pop up
@@ -60,6 +64,22 @@ app.get("/api/author/:authorId", async function(req, res){
 	res.send(rows[0]);
 });//findByAuthor pop up
 
+
+app.get('/findByCategory', async function(req, res) {
+
+    let cat = req.query.category;
+    let  authorId = req.query.authorId;
+    
+    sql = `SELECT firstName, lastName, quote, authorId
+        FROM q_quotes q
+                NATURAL JOIN q_authors a
+                WHERE q.category = ${cat}
+        ORDER BY likes DESC`;
+    let params = [`${authorId}`];
+    let rows = await executeSQL(sql,params);
+    res.render('results', { 'quotes': rows });
+
+}); //find by category
 
 // likes
 app.get('/likes', async function (req, res)  {
