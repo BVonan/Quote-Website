@@ -1,0 +1,10 @@
+html {
+    background-image: url(https://www.flyingandtravel.com/wp-content/uploads/2018/12/nice-beaches-in-florida-fort-lauderdale-beach.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  
+  .error {
+        color: red;
+      }
